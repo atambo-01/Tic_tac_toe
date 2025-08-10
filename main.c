@@ -1,8 +1,22 @@
 #include <stdio.h>
+#include <time.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 
+void p_grid(char **grid) {
+	int i = 0;
+	printf("------------------------\n\n");
+	while(i < 3){
+		printf("\t%c|%c|%c\n", grid[i][0], grid[i][1], grid[i][2]);
+		i++;
+	}
+	printf("\nChoose where to place 'X'\n\n"
+			"\t0|1|2\n"
+			"\t3|4|5\n"
+			"\t6|7|8\n"
+			"\n------------------------\n> ");
+}
 
 int f_atoi(const char *nptr)
 {
@@ -51,8 +65,9 @@ int check_game(char  ***p_grid, char c)
 	i = 0;
 	while(i < 3)
 	{
-		j = 0;
+		v = 0;
 		h = 0;
+		j = 0;
 		while(j < 3)
 		{
 			if (grid[i][j] == c)
@@ -117,7 +132,6 @@ void f_play(char ***p_grid, int *p_n, char  **line)
 
 int main()
 {
-	int i = 0;
 	int n = 0;
 	int error = -1;
 	char *line = NULL;
@@ -130,6 +144,7 @@ int main()
 
 	while(1)
 	{
+		srand(time(NULL));
 		system("clear");
 		if (line)
 			free(line);
@@ -140,17 +155,8 @@ int main()
 		else 
 			printf("\n");
 		error = 0;
-		i = 0;
-		printf("------------------------\n\n");
-		while(i < 3)
-		{
-			printf("\t%c|%c|%c\n", grid[i][0], grid[i][1], grid[i][2]);
-			i++;
-		}
-		printf("\n");
-		line = readline	(	"Choose where to place 'X'\n\n"
-							"\t0|1|2\n\t3|4|5\n\t6|7|8\n "
-							"\n------------------------\n> "	);
+		p_grid(grid);
+		line = readline("");
 		n = f_atoi(line);
 		if (n < 0 || n > 8)
 		{
